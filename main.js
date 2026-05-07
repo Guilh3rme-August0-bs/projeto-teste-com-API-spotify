@@ -1,16 +1,19 @@
 const express = require('express')
 const app = express()
+require('dotenv').config()
 
-const { gerarToken } = require("./autenticacao.js")
+//const { gerarToken } = require("./autenticacao.js")
 
 const PORT = 3000
 const url = 'https://api.spotify.com/v1/artists/4Z8W4fKeB5YxbusRsdQVPb'
 
 app.get('/get', async (req, res) => {
 
-    const token = await gerarToken();
+    //const token = await gerarToken();
 
-    const resposta = await fetch('https://api.spotify.com/v1/browse/new-releases?country=BR&limit=10', {
+    //preencher (no ".env") com token gerado no "autenticacao.js"
+    const token = process.env.TOKEN
+    const resposta = await fetch('https://api.spotify.com/v1/browse/new-releases', {
         headers: {
             Authorization: `Bearer ${token}`
         }
