@@ -2,56 +2,76 @@ const express = require('express')
 const app = express()
 require('dotenv').config()
 
-//const { gerarToken } = require("./autenticacao.js")
+const { gerarToken, getTokenCache } = require("./autenticacao.js")
 
 const PORT = 3000
 
 //rota para pesquisar artista, album, track
 
-let urlSearch = 'https://api.spotify.com/v1/search?q=${contentPlus}&type=${typeSearch}&limit=${limit}&include_external=audio'
-
 const typeSearch = ['album', 'artist', 'track']
 const index = 2
 const limit = [10, 20, 50, 100]
 const indexLimit = 0
+
 const content = 'Michael Jackson'
-const contentPlus = content.replace('', '+')
+const contentPlus = content.replace(/ /g, '+')
 
 //'https://api.spotify.com/v1/search?q=${contentPlus}&type=${typeSearch}&limit=${limit[indexLimit]}&include_external=audio'
 
-urlSearchReplace = urlSearch.replace('${contentPlus}', contentPlus)
-    .replace('${typeSearch}', typeSearch[index])
-    .replace('${limit}', limit[indexLimit])
 
 app.get('/search', async (req, res) => {
 
-    //const token = await gerarToken();
 
-    //preencher (no ".env") com token gerado no "autenticacao.js"
-    const token = process.env.TOKEN
-    const resposta = await fetch(urlSearchReplace, {
-        method: 'GET',
-        headers: {
-            Authorization: `Bearer ${token}`
+    try {
+
+        let token = getTokenCache()
+
+        if (!token) {
+            token = await gerarToken();
         }
-    });
 
-    const data = await resposta.json();
+        const urlSearch = `https://api.spotify.com/v1/search?q=${contentPlus}&type=${typeSearch[index]}&limit=${limit[indexLimit]}&include_external=audio`
 
-    const resultado = data.tracks.items.map(track => ({
-        nome: track.name,
-        artista: track.artists[0].name,
-        album: track.album.name,
-        imagem: track.album.images[0]?.url
-       
-    }))
+        //preencher (no ".env") com token gerado no "autenticacao.js"
 
-    res.json(resultado)
+        let resposta = await fetch(urlSearch, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
 
-    console.log("STATUS:", resposta.status);
-    //console.log(data);
+        // retry automático
+        if (resposta.status === 401) {
+            token = await gerarToken()
 
-    res.send(resultado);
+            resposta = await fetch(urlSearch, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+        }
+
+        const data = await resposta.json();
+
+        if (!data.tracks || !data.tracks.items) {
+            return res.status(400).json(data)
+        }
+
+        const resultado = data.tracks.items.map(track => ({
+            nome: track.name,
+            artista: track.artists[0].name,
+            album: track.album.name,
+            imagem: track.album.images[0]?.url,
+            preview: track.preview_url
+
+        }))
+
+        res.json(resultado)
+
+    } catch (erro) {
+        console.log(erro)
+        res.status(500).send("Erro interno")
+    }
 });
 
 app.listen(PORT, () => {

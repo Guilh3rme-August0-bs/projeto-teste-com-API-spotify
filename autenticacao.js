@@ -5,6 +5,10 @@ const clientSecret = process.env.SECRET
 
 const credentials = Buffer.from(`${clientID}:${clientSecret}`).toString("base64");
 
+//armazenar token gerado em cache
+let tokenCache = null
+let tokenExpiraEm = 0
+
 async function gerarToken() {
 
     try {
@@ -17,22 +21,29 @@ async function gerarToken() {
             },
             body: "grant_type=client_credentials"
         })
-        // return data.access_token
-        //const data = await resposta.json()
-        .then(res => res.json())
-        .then(data => console.log(data.access_token))
+        
+        const data = await resposta.json()
+
+        tokenCache = data.access_token;
+        tokenExpiraEm = Date.now() + (data.expires_in * 1000)
+
+        return tokenCache
+
 
     } catch (erro) {
         console.log(erro)
     }
 
 }
+function getTokenCache() {
 
-gerarToken()
+if (!tokenCache || Date.now() > tokenExpiraEm) {
+    return null
+}
+    return tokenCache
+}
 
-/* BQAz2vN6zYn6r_ACn96eijhyF3T-YUpIFjO6l1jeZsVs0n_DfHI9wb3l9FTBcFtZk8jccaozfMXjytmUFi_uQPX0teNnVNPOPLBwG9rvaZ81_0Ax6GZyrdK2_WtEpU0AyjVtpPqo7to */
-
-//console.log(gerarToken())
+module.exports = { gerarToken, getTokenCache }
 
 /*
 
@@ -41,5 +52,3 @@ dados.token_type
 dados.expires_in
 
 */
-
-//module.exports = { gerarToken }
