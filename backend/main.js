@@ -2,25 +2,29 @@ const express = require('express')
 const app = express()
 require('dotenv').config()
 
+// CORS: permite que o frontend (rodando em outra porta/origem) consiga fazer requisições para este backend
+const cors = require('cors')
+app.use(cors())
+
 const { gerarToken, getTokenCache } = require("./autenticacao.js")
 
 const PORT = 3000
 
 //rota para pesquisar artista, album, track
 
-const typeSearch = ['album', 'artist', 'track']
-const index = 2
-const limit = [10, 20, 50, 100]
-const indexLimit = 0
+// const contentPlus = content.replace(/ /g, '+')
 
-const content = 'Michael Jackson'
-const contentPlus = content.replace(/ /g, '+')
+//url teste:
 
-//'https://api.spotify.com/v1/search?q=${contentPlus}&type=${typeSearch}&limit=${limit[indexLimit]}&include_external=audio'
+//http://127.0.0.1:3000/search/?content=Rolling%20Stones&type=track
 
 
 app.get('/search', async (req, res) => {
-
+    
+const limit = 10
+const content = req.query.content
+const contentPlus = content.replace(/ /g, '+')
+const typeSearch = req.query.type
 
     try {
 
@@ -30,7 +34,7 @@ app.get('/search', async (req, res) => {
             token = await gerarToken();
         }
 
-        const urlSearch = `https://api.spotify.com/v1/search?q=${contentPlus}&type=${typeSearch[index]}&limit=${limit[indexLimit]}&include_external=audio`
+        const urlSearch = `https://api.spotify.com/v1/search?q=${contentPlus}&type=${typeSearch}&limit=${limit}&include_external=audio`
 
         //preencher (no ".env") com token gerado no "autenticacao.js"
 
