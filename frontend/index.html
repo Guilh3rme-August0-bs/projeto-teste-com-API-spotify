@@ -1,81 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página de Busca</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #ffffff;
-        }
-        
-        .container {
-            max-width: 600px;
-            margin: 40px auto;
-            padding: 20px;
-            background-color: #f9f9f9;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        
-        .search-bar {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-        }
-        
-        .search-input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        
-        .select-container {
-            width: 100%;
-            margin-bottom: 10px;
-        }
-        
-        .select-input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        
-        .text-area {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        
-        .search-button {
-            background-color: #00ff00;
-            color: #ffffff;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        
-        .search-button:hover {
-            background-color: #00cc00;
-        }
-        
-        @media (max-width: 600px) {
-            .container {
-                margin: 20px auto;
-                padding: 10px;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
     <div class="container">
         <div class="search-bar">
@@ -87,10 +19,36 @@
                     <option value="artist">Artist</option>
                 </select>
             </div>
-            <textarea class="text-area" placeholder="Descrição..." id="textArea"></textarea>
             <button class="search-button">Buscar</button>
         </div>
+        <div>
+            <textarea class="text-area" placeholder="Descrição..." id="textArea"></textarea>
+        </div>
     </div>
-    <script src="script.js"></script>
+    <div class="results">
+        <!-- <div class="lista_div">
+            <img class="cover_icon" src="https://i.scdn.co/image/ab67616d0000b2732b74bf21c7e4f56758610949"
+                alt="off_the_wall">
+            <div class="item_content">
+                <ul>
+                    <li class="nome">nome</li>
+                    <li class="artista">artista</li>
+                    <li class="album">album</li>
+                </ul>
+            </div>
+        </div> -->
+    </div>
+    <script src="script.js">
+        /*
+ 
+    nome
+    artista
+    album
+    imagem
+    preview
+
+*/
+    </script>
 </body>
+
 </html>
