@@ -77,7 +77,12 @@ app.get('/search', async (req, res) => {
                     artista: track.artists[0].name,
                     album: track.album.name,
                     imagem: track.album.images[0]?.url,
-                    preview: track.preview_url
+                    preview: track.preview_url,
+                    lancamento: track.album.release_date,
+                    duracao: track.duration_ms,
+                    popularidade: track.popularity,
+                    explicit: track.explicit,
+                    link: track.external_urls.spotify
                 }))
                 return resultado
             }

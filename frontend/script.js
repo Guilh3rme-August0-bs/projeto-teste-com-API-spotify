@@ -43,11 +43,11 @@ function listar() {
         preview
     */
 
-   const content = document.getElementById('search-input')
-   const type = document.getElementById('select-input')
+    const content = document.getElementById('search-input')
+    const type = document.getElementById('select-input')
 
-   const contentValue = content.value
-   const typeValue = type.value
+    const contentValue = content.value
+    const typeValue = type.value
 
     for (let i = 0; i < list.length; i++) {
 
@@ -62,8 +62,23 @@ function listar() {
             lista_anterior.forEach(el => el.remove())
         }
 
+        function formatarTempo(ms) {
+            let totalSegundos = Math.floor(ms / 1000);
+            let minutos = Math.floor(totalSegundos / 60);
+            let segundos = totalSegundos % 60; // Pega o resto da divisão
+
+            segundos = parseFloat(segundos.toFixed(2))
+
+            return `${minutos}:${segundos}`;
+        }
+
+        function explicitCheck(explicit) {
+            return explicit? 'conteúdo explícito': 'sem conteúdo explícito'
+        }
+
         switch (typeValue) {
             case 'track':
+
                 lista_div.innerHTML = `<div class="lista_div">
             <img class="cover_icon" src=${list[i].imagem}>
             <div class="item_content">
@@ -71,6 +86,10 @@ function listar() {
                     <li class="nome">${list[i].nome}</li>
                     <li class="artista">${list[i].artista}</li>
                     <li class="album">${list[i].album}</li>
+                    <li class="lancamento">${list[i].lancamento}</li>
+                    <li class="duracao">${formatarTempo(list[i].duracao)}</li>
+                    <li class="explicit">${explicitCheck(list[i].explicit)}</li>
+                    <a href="${list[i].link}" class="link">Ouvir</a>
                 </ul>
             </div>
         </div>`
@@ -79,7 +98,7 @@ function listar() {
 
             case 'album':
 
-            lista_div.innerHTML = `<div class="lista_div">
+                lista_div.innerHTML = `<div class="lista_div">
             <img class="cover_icon" src=${list[i].imagem}>
             <div class="item_content">
                 <ul>
@@ -91,13 +110,13 @@ function listar() {
             </div>
         </div>`
 
-        break
+                break
 
-        default:
+            default:
 
-        lista_div.innerHTML = ''
+                lista_div.innerHTML = ''
 
-        break
+                break
 
         }
 
