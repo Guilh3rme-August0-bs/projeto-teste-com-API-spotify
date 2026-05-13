@@ -20,11 +20,11 @@ const PORT = 3000
 
 
 app.get('/search', async (req, res) => {
-    
-const limit = 10
-const content = req.query.content
-const contentPlus = content.replace(/ /g, '+')
-const typeSearch = req.query.type
+
+    const limit = 10
+    const content = req.query.content
+    const contentPlus = content.replace(/ /g, '+')
+    const typeSearch = req.query.type
 
     try {
 
@@ -57,20 +57,44 @@ const typeSearch = req.query.type
 
         const data = await resposta.json();
 
-        if (!data.tracks || !data.tracks.items) {
-            return res.status(400).json(data)
+
+        // const resultado = data.tracks.items.map(track => ({
+        //     nome: track.name,
+        //     artista: track.artists[0].name,
+        //     album: track.album.name,
+        //     imagem: track.album.images[0]?.url,
+        //     preview: track.preview_url
+
+        // }))
+
+        // res.json(resultado)
+
+        function typeCheck(type) {
+
+            if (type === 'track') {
+                const resultado = data.tracks.items.map(track => ({
+                    nome: track.name,
+                    artista: track.artists[0].name,
+                    album: track.album.name,
+                    imagem: track.album.images[0]?.url,
+                    preview: track.preview_url
+                }))
+                return resultado
+            }
+
+            if (type === 'album') {
+                const resultado = data.albums.items.map(album => ({
+                    nome: album.name,
+                    artista: album.artists[0]?.name,
+                    imagem: album.images[0]?.url || null,
+                    lancamento: album.release_date,
+                    link: album.external_urls.spotify
+                }));
+                return resultado
+            }
         }
 
-        const resultado = data.tracks.items.map(track => ({
-            nome: track.name,
-            artista: track.artists[0].name,
-            album: track.album.name,
-            imagem: track.album.images[0]?.url,
-            preview: track.preview_url
-
-        }))
-
-        res.json(resultado)
+        res.json(typeCheck(typeSearch))
 
     } catch (erro) {
         console.log(erro)

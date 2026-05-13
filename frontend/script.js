@@ -12,7 +12,7 @@ async function search(content, type) {
 
     let resultado = await resposta.json()
 
-    
+
     list = resultado
     textArea.innerText = JSON.stringify(resultado, null, 2)
     console.log(`tamanho do retorno: ${resultado.length}`)
@@ -35,18 +35,22 @@ document.querySelector('.search-button').addEventListener('click', function () {
 //criar lista com resultados
 
 function listar() {
-
     /* 
-    
         nome
         artista
         album
         imagem
         preview
-
     */
-    
+
+   const content = document.getElementById('search-input')
+   const type = document.getElementById('select-input')
+
+   const contentValue = content.value
+   const typeValue = type.value
+
     for (let i = 0; i < list.length; i++) {
+
 
         const body = document.querySelector('.results')
         const lista_div = document.createElement('div')
@@ -58,7 +62,9 @@ function listar() {
             lista_anterior.forEach(el => el.remove())
         }
 
-        lista_div.innerHTML = `<div class="lista_div">
+        switch (typeValue) {
+            case 'track':
+                lista_div.innerHTML = `<div class="lista_div">
             <img class="cover_icon" src=${list[i].imagem}>
             <div class="item_content">
                 <ul>
@@ -69,7 +75,34 @@ function listar() {
             </div>
         </div>`
 
+                break
+
+            case 'album':
+
+            lista_div.innerHTML = `<div class="lista_div">
+            <img class="cover_icon" src=${list[i].imagem}>
+            <div class="item_content">
+                <ul>
+                    <li class="nome">${list[i].nome}</li>
+                    <li class="artista">${list[i].artista}</li>
+                    <li class="lancamento">${list[i].lancamento}</li>
+                    <a href="${list[i].link}" class="link">Ouvir</a>
+                </ul>
+            </div>
+        </div>`
+
+        break
+
+        default:
+
+        lista_div.innerHTML = ''
+
+        break
+
+        }
+
+
         body.appendChild(lista_div)
-        console.log(`item: ${i}`)
+        //console.log(`item: ${i}`)
     }
 }
