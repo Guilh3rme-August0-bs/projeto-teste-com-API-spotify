@@ -107,6 +107,25 @@ app.get('/search', async (req, res) => {
     }
 });
 
+app.get('/lyrics', async (req, res) => {
+
+    const artist = req.query.artist
+    const title = req.query.title
+
+    try {
+        //await pausa a função até que a promise seja concluída     
+        const resposta = await fetch(`https://api.lyrics.ovh/v1/${artist}/${title}`)
+        /* na variável "dados", o await é usado para que o retorno 
+        não seja "pending" (promise pendente), assim a linha não é 
+        executada antes do retorno da promise */
+        const dados = await resposta.json()
+        res.json(dados)
+    } catch (erro) {
+        console.log(`erro ao buscar canção:  ${erro}`)
+        res.json([{"erro":"letra não encontrada"}])
+    }
+})
+
 app.listen(PORT, () => {
     console.log(`App rodando em http://127.0.0.1:${PORT}`)
 })

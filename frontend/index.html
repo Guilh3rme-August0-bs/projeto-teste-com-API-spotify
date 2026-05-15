@@ -10,45 +10,40 @@
 </head>
 
 <body>
-    <div class="container">
-        <div class="search-bar">
-            <input type="text" class="search-input" id="search-input" placeholder="Pesquisar...">
-            <div class="select-container">
-                <select id="select-input" class="select-input">
-                    <option value="track">Track</option>
-                    <option value="album">Album</option>
-                </select>
+    <div class="content">
+        <div class="left">
+            <div class="container">
+                <div class="search-bar">
+                    <input type="text" class="search-input" id="search-input" placeholder="Pesquisar...">
+                    <div class="select-container">
+                        <select id="select-input" class="select-input">
+                            <option value="track">Track</option>
+                            <option value="album">Album</option>
+                        </select>
+                    </div>
+                    <button class="search-button"><i class="fa-solid fa-magnifying-glass"></i></button>
+                </div>
+                <div class="text-area_div">
+                    <textarea class="text-area" placeholder="Descrição..." id="textArea"></textarea>
+                </div>
             </div>
-            <button class="search-button"><i class="fa-solid fa-magnifying-glass"></i></button>
-        </div>
-        <div class="text-area_div">
-            <textarea class="text-area" placeholder="Descrição..." id="textArea"></textarea>
-        </div>
-    </div>
-    <div class="results">
-        <!-- <div class="lista_div">
-            <img class="cover_icon" src="https://i.scdn.co/image/ab67616d0000b2732b74bf21c7e4f56758610949"
-                alt="off_the_wall">
-            <div class="item_content">
-                <ul>
-                    <li class="nome">nome</li>
-                    <li class="artista">artista</li>
-                    <li class="album">album</li>
-                </ul>
+            <div class="results">
             </div>
-        </div> -->
-    </div>
-    <script src="script.js">
-        /*
- 
-    nome
-    artista
-    album
-    imagem
-    preview
+        </div>
 
-*/
-    </script>
+        <div class="right">
+            <div class="lyrics">
+                <div class="icon">
+                    <i class="fa-solid fa-music"></i>
+                </div>
+                <div class="lyrics-content">
+                <p class='lyricsText'></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 
 </html>

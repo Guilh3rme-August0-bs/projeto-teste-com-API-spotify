@@ -10,18 +10,67 @@
         body {
             font-family: Arial, sans-serif;
             background-color: #000000;
+            display: flex;
+            flex-direction: row;
 
+        }
+
+        .content {
+            margin: 40px auto -20px auto;
+            display: flex;
+        }
+
+        .left {
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .right {
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            border-radius: 10px;
         }
 
         .container {
             display: flex;
             flex-direction: column;
-            max-width: 100vh;
+            width: 70vh;
             margin: 40px auto -20px auto;
             padding: 20px;
             background-color: #232323;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .icon {
+            display: block;
+            background-color: #00000000;
+            color: white;
+            text-align: center;
+            align-items: center;
+            font-size: 81px;
+            color: #ffffff52;
+        }
+
+        .lyrics {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 70vh;
+            height: 95.6%;
+            margin: 40px auto -20px auto;
+            padding: 20px;
+            background-color: #232323;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            justify-content: center;
+        }
+
+        .lyrics-content {
+            display: none;
+            background: #0000ff00;
         }
 
         .search-bar {
@@ -132,6 +181,11 @@
             flex-direction: column;
             background-color: #232323;
 
+        }
+
+        .lyricsText {
+            font-size: 37px;
+            background: #00000000;
         }
 
         .cover_icon {
