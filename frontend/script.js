@@ -36,6 +36,10 @@ async function preencherLyrics(artist, title) {
 const elementoPai = document.querySelector('.results')
 
 elementoPai.addEventListener('click', function (e) {
+
+    const type = document.getElementById('select-input')
+    const typeValue = type.value
+
     const itemClicado = e.target.closest('.item')
     const lista = itemClicado.querySelector('.lista_div')
     const itemContent = lista.querySelector('.item_content')
@@ -47,7 +51,9 @@ elementoPai.addEventListener('click', function (e) {
         const artistaValue = artista.innerText
         const titleValue = title.innerText
 
-        preencherLyrics(artistaValue, titleValue)
+        if (typeValue === 'track') {
+            preencherLyrics(artistaValue, titleValue)
+        }
     }
 
 })
