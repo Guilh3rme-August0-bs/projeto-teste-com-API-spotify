@@ -22,9 +22,9 @@ async function preencherLyrics(artist, title) {
     const iconDiv = document.querySelector('.icon')
     const lyricsDiv = document.querySelector('.lyrics-content')
     const textLyric = document.querySelector('.lyricsText')
-    
+
     let resposta = await fetch(`${url}/lyrics/?artist=${artist}&title=${title}`)
-    
+
     let resultado = await resposta.json()
 
     iconDiv.style.display = 'none'
@@ -57,6 +57,7 @@ elementoPai.addEventListener('click', function (e) {
     }
 
 })
+
 
 document.querySelector('.search-button').addEventListener('click', function () {
 
