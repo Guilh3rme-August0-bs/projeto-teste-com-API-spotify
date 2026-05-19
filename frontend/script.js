@@ -20,6 +20,7 @@ async function search(content, type) {
 async function preencherLyrics(artist, title) {
 
     const iconDiv = document.querySelector('.icon')
+    const lyrics = document.querySelector('.lyrics')
     const lyricsDiv = document.querySelector('.lyrics-content')
     const textLyric = document.querySelector('.lyricsText')
 
@@ -29,6 +30,8 @@ async function preencherLyrics(artist, title) {
 
     iconDiv.style.display = 'none'
     lyricsDiv.style.display = 'block'
+    lyrics.style.justifyContent = 'flex-start'
+    lyrics.style.overflowY = 'scroll'
     textLyric.innerHTML = resultado.lyrics
 }
 
@@ -104,11 +107,12 @@ function listar() {
         function formatarTempo(ms) {
             let totalSegundos = Math.floor(ms / 1000);
             let minutos = Math.floor(totalSegundos / 60);
-            let segundos = totalSegundos % 60; // Pega o resto da divisão
+            let segundos = totalSegundos % 60;
 
-            segundos = parseFloat(segundos.toFixed(2))
+            // Transforma em string e garante que tenha pelo menos 2 dígitos, preenchendo com '0'
+            let segundosFormatados = segundos.toString().padStart(2, '0');
 
-            return `${minutos}:${segundos}`;
+            return `${minutos}:${segundosFormatados}`;
         }
 
         function explicitCheck(explicit) {
