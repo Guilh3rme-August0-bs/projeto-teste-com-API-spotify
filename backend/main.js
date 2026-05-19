@@ -119,10 +119,15 @@ app.get('/lyrics', async (req, res) => {
         não seja "pending" (promise pendente), assim a linha não é 
         executada antes do retorno da promise */
         const dados = await resposta.json()
+
+        if (dados.error) {
+            throw new Error('Não foi possível encontrar a letra desta faixa')
+        }
         res.json(dados)
+
     } catch (erro) {
-        console.log(`erro ao buscar canção:  ${erro}`)
-        res.json([{"erro":"letra não encontrada"}])
+        console.log(`erro ao buscar canção`)
+        res.status(404).json({ erro: erro.message })
     }
 })
 

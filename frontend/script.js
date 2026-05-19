@@ -6,6 +6,11 @@ var list = []
 
 async function search(content, type) {
 
+    const iconDiv = document.querySelector('.icon')
+    const lyrics = document.querySelector('.lyrics')
+    const lyricsDiv = document.querySelector('.lyrics-content')
+    const textLyric = document.querySelector('.lyricsText')
+
     const contentPlus = content.replace(/ /g, '+')
 
     let resposta = await fetch(`${url}/search/?content=${contentPlus}&type=${type}`)
@@ -15,6 +20,12 @@ async function search(content, type) {
     textArea.innerText = JSON.stringify(resultado, null, 2)
     console.log(`tamanho do retorno: ${resultado.length}`)
     listar()
+
+    iconDiv.style.display = 'block'
+    lyricsDiv.style.display = 'none'
+    // lyrics.style.justifyContent = 'center'
+    lyrics.style.overflowY = 'none'
+
 }
 
 async function preencherLyrics(artist, title) {
@@ -32,7 +43,14 @@ async function preencherLyrics(artist, title) {
     lyricsDiv.style.display = 'block'
     lyrics.style.justifyContent = 'flex-start'
     lyrics.style.overflowY = 'scroll'
-    textLyric.innerHTML = resultado.lyrics
+
+    console.log(resultado)
+
+    if (resultado.erro) {
+        textLyric.innerHTML = 'Não foi possível encontrar a letra desta faixa'
+    } else {
+        textLyric.innerHTML = resultado.lyrics
+    }
 }
 
 //selecionar track para mostrar letra
