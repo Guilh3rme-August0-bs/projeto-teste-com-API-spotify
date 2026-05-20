@@ -222,7 +222,7 @@
         }
 
         .cover_icon {
-            height: 23vh;
+            height: 20vh;
         }
 
         ul {
@@ -245,14 +245,14 @@
         .artista,
         .album,
         .duracao {
-            font-size: 2vh;
+            font-size: 1.8vh;
             color: #1db954;
         }
 
         .lancamento,
         .link,
         .explicit {
-            font-size: 2vh;
+            font-size: 1.8vh;
             color: #ffffff;
         }
 

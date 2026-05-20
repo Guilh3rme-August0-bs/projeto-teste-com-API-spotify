@@ -18,7 +18,7 @@ async function search(content, type) {
 
     list = resultado
     textArea.innerText = JSON.stringify(resultado, null, 2)
-    console.log(`tamanho do retorno: ${resultado.length}`)
+    //console.log(`tamanho do retorno: ${resultado.length}`)
     listar()
 
     iconDiv.style.display = 'block'
@@ -52,7 +52,6 @@ async function preencherLyrics(artist, title) {
     divTrack.style.display = 'none'
 
     let resposta = await fetch(`${url}/lyrics/?artist=${artist}&title=${title}`)
-
     let resultado = await resposta.json()
 
     iconDiv.style.display = 'none'
@@ -60,7 +59,7 @@ async function preencherLyrics(artist, title) {
     lyrics.style.justifyContent = 'flex-start'
     lyrics.style.overflowY = 'scroll'
 
-    console.log(resultado)
+    //console.log(resultado)
 
     if (resultado.erro) {
         textLyric.innerHTML = 'Não foi possível encontrar a letra desta faixa'
@@ -101,17 +100,17 @@ const elementoPai = document.querySelector('.results')
 
 elementoPai.addEventListener('click', function (e) {
 
-    const type = document.getElementById('select-input')
-    const typeValue = type.value
-
+    
     const itemClicado = e.target.closest('.item')
     const lista = itemClicado.querySelector('.lista_div')
     const itemContent = lista.querySelector('.item_content')
     const artista = itemContent.querySelector('.artista')
     const title = itemContent.querySelector('.nome')
-
+    
     if (itemClicado) {
-
+        
+        const type = document.getElementById('select-input')
+        const typeValue = type.value
         const artistaValue = artista.innerText
         const titleValue = title.innerText
 
@@ -191,7 +190,7 @@ function listar() {
                     <li class="album">${list[i].album}</li>
                     <li class="lancamento">${list[i].lancamento}</li>
                     <li class="duracao">${formatarTempo(list[i].duracao)}</li>
-                    <li class="explicit">${explicitCheck(list[i].explicit)}</li>
+                    <!--<li class="explicit">${explicitCheck(list[i].explicit)}</li>-->
                     <a href="${list[i].link}" class="link">Ouvir</a>
                     </ul>
                     </div>
