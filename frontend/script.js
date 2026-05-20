@@ -23,7 +23,7 @@ async function search(content, type) {
 
     iconDiv.style.display = 'block'
     lyricsDiv.style.display = 'none'
-    // lyrics.style.justifyContent = 'center'
+    lyrics.style.justifyContent = 'center'
     lyrics.style.overflowY = 'none'
 
 }

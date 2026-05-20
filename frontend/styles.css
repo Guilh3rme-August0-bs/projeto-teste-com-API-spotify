@@ -19,6 +19,33 @@
         .content {
             width: 100%;
             display: flex;
+
+        }
+
+        .menu {
+            padding: 20px;
+            border-radius: 10px;
+            width: 33%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .navigation {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 86%;
+            height: 37vw;
+            padding: 20px;
+            gap: 20px;
+            background-color: #232323;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav {
+            background-color: #00000000;
+            border: none;
+            cursor: pointer;
         }
 
         .left {
@@ -26,8 +53,6 @@
             border-radius: 10px;
             width: 100%;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                height: 28%;
-                overflow-y: scroll
         }
 
         .right {
@@ -36,14 +61,12 @@
             padding: 20px;
             border-radius: 10px;
             width: 100%;
-                /* height: 25%; */
         }
 
         .container {
             display: flex;
             flex-direction: column;
             width: 93%;
-            min-width: 390px;
             padding: 20px;
             background-color: #232323;
             border-radius: 10px;
@@ -64,8 +87,8 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            max-width: 70vh;
-            height: 28%;
+            width: 70vh;
+            height: 37vw;
             padding: 20px;
             background-color: #232323;
             border-radius: 10px;
@@ -78,7 +101,7 @@
         .lyrics-content {
             display: none;
             background: #0000ff00;
-            height: 100vh;
+            height: 60vh;
         }
 
         .search-bar {
@@ -112,7 +135,6 @@
         }
 
         .text-area_div {
-            display: none;
             text-align: center;
             background: #00000000;
             align-items: center;
@@ -120,6 +142,7 @@
         }
 
         .text-area {
+            display: none;
             width: 100%;
             resize: vertical;
             padding: 10px 0 10px 1px;
@@ -129,7 +152,7 @@
         }
 
         .search-button {
-            background-color: #009300;
+            background-color: #1db954;
             border: none;
             border-radius: 6px;
             color: #ffffff;
@@ -157,8 +180,9 @@
             padding: 20px;
             background-color: #080808;
             border-radius: 10px;
-            /* overflow-y: scroll; */
 
+            overflow-y: scroll;
+            height: 60vh;
 
         }
 
@@ -194,7 +218,7 @@
         }
 
         .lyricsText {
-            font-size: 32px;
+            font-size: 26px;
             background: #00000000;
         }
 
@@ -223,7 +247,7 @@
         .album,
         .duracao {
             font-size: 2vh;
-            color: #7abf70;
+            color: #1db954;
         }
 
         .lancamento,
@@ -247,9 +271,13 @@
                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             }
 
+            .results {
+                overflow-y: none;
+                height: 35%;
+            }
+
             .right {
                 display: none;
-                /* height: 25% */
             }
 
             .cover_icon {
@@ -268,4 +296,30 @@
             .explicit {
                 font-size: 2.4vw;
             }
+
+            .menu {
+                display: none
+            }
+        }
+
+        /* 2. O trilho (fundo onde a barra desliza) */
+        .lyrics::-webkit-scrollbar-track,
+        .results::-webkit-scrollbar-track {
+            background: #454545;
+            border-radius: 8px;
+        }
+
+        /* 3. O polegar (a barra que se move) */
+        .lyrics::-webkit-scrollbar-thumb,
+        .results::-webkit-scrollbar-thumb {
+            background: #1db954;
+            border-radius: 8px;
+        }
+
+        .lyrics::-webkit-scrollbar,
+        .results::-webkit-scrollbar {
+            width: 12px;
+            /* Largura para scroll vertical */
+            height: 12px;
+            /* Altura para scroll horizontal */
         }
