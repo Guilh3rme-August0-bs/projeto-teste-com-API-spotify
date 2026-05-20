@@ -28,12 +28,28 @@ async function search(content, type) {
 
 }
 
+function formatarTempo(ms) {
+    let totalSegundos = Math.floor(ms / 1000);
+    let minutos = Math.floor(totalSegundos / 60);
+    let segundos = totalSegundos % 60;
+
+    // Transforma em string e garante que tenha pelo menos 2 dígitos, preenchendo com '0'
+    let segundosFormatados = segundos.toString().padStart(2, '0');
+
+    return `${minutos}:${segundosFormatados}`;
+}
+
 async function preencherLyrics(artist, title) {
 
     const iconDiv = document.querySelector('.icon')
     const lyrics = document.querySelector('.lyrics')
     const lyricsDiv = document.querySelector('.lyrics-content')
     const textLyric = document.querySelector('.lyricsText')
+
+    const divTrack = document.querySelector('.trackList')
+
+    lyrics.style.display = 'flex'
+    divTrack.style.display = 'none'
 
     let resposta = await fetch(`${url}/lyrics/?artist=${artist}&title=${title}`)
 
@@ -51,6 +67,33 @@ async function preencherLyrics(artist, title) {
     } else {
         textLyric.innerHTML = resultado.lyrics
     }
+}
+
+async function preencherTrackList(img, id) {
+
+    let resposta = await fetch(`${url}/albums/?id=${id}`)
+    let resultado = await resposta.json()
+
+    const iconDiv = document.querySelector('.icon')
+    const lyrics = document.querySelector('.lyrics')
+    const divTrack = document.querySelector('.trackList')
+    const albumCover = divTrack.querySelector('.cover_album')
+    const lista = divTrack.querySelector('.list-content')
+
+    albumCover.src = img
+    iconDiv.style.display = 'none'
+    lyrics.style.display = 'none'
+    divTrack.style.display = 'flex'
+    lista.innerHTML = ``
+
+    for (let i = 0; i < resultado.length; i++) {
+        lista.innerHTML += `
+        <div class="album-item">
+        <p class="track">${resultado[i].nome}</p>
+        <p class="time">${formatarTempo(resultado[i].duracao)}</p>
+        </div>`
+    }
+
 }
 
 //selecionar track para mostrar letra
@@ -75,9 +118,18 @@ elementoPai.addEventListener('click', function (e) {
         if (typeValue === 'track') {
             preencherLyrics(artistaValue, titleValue)
         }
+        if (typeValue === 'album') {
+            const id = itemContent.querySelector('.albumId')
+            const img = lista.querySelector('.cover_icon')
+            const idValue = id.innerText
+            const imgValue = img.src
+
+            preencherTrackList(imgValue, idValue)
+        }
     }
 
 })
+
 
 
 document.querySelector('.search-button').addEventListener('click', function () {
@@ -122,16 +174,6 @@ function listar() {
             lista_anterior.forEach(el => el.remove())
         }
 
-        function formatarTempo(ms) {
-            let totalSegundos = Math.floor(ms / 1000);
-            let minutos = Math.floor(totalSegundos / 60);
-            let segundos = totalSegundos % 60;
-
-            // Transforma em string e garante que tenha pelo menos 2 dígitos, preenchendo com '0'
-            let segundosFormatados = segundos.toString().padStart(2, '0');
-
-            return `${minutos}:${segundosFormatados}`;
-        }
 
         function explicitCheck(explicit) {
             return explicit ? 'conteúdo explícito' : 'sem conteúdo explícito'
@@ -151,9 +193,9 @@ function listar() {
                     <li class="duracao">${formatarTempo(list[i].duracao)}</li>
                     <li class="explicit">${explicitCheck(list[i].explicit)}</li>
                     <a href="${list[i].link}" class="link">Ouvir</a>
-                </ul>
-            </div>
-        </div>`
+                    </ul>
+                    </div>
+                    </div>`
 
                 break
 
@@ -162,11 +204,12 @@ function listar() {
                 lista_div.innerHTML = `<div class="lista_div">
             <img class="cover_icon" src=${list[i].imagem}>
             <div class="item_content">
-                <ul>
-                    <li class="nome">${list[i].nome}</li>
-                    <li class="artista">${list[i].artista}</li>
-                    <li class="lancamento">${list[i].lancamento}</li>
-                    <a href="${list[i].link}" class="link">Ouvir</a>
+            <ul>
+            <li class="nome">${list[i].nome}</li>
+            <li class="artista">${list[i].artista}</li>
+            <li class="lancamento">${list[i].lancamento}</li>
+            <li class="albumId" style="display: none">${list[i].id}</li>
+            <a href="${list[i].link}" class="link">Ouvir</a>
                 </ul>
             </div>
         </div>`

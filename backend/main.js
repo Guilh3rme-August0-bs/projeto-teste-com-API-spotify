@@ -93,7 +93,8 @@ app.get('/search', async (req, res) => {
                     artista: album.artists[0]?.name,
                     imagem: album.images[0]?.url || null,
                     lancamento: album.release_date,
-                    link: album.external_urls.spotify
+                    link: album.external_urls.spotify,
+                    id: album.id
                 }));
                 return resultado
             }
@@ -106,6 +107,50 @@ app.get('/search', async (req, res) => {
         res.status(500).send("Erro interno")
     }
 });
+
+app.get('/albums', async (req, res) => {
+
+    const Id = req.query.id
+
+    try {
+
+        const url = `https://api.spotify.com/v1/albums/${Id}`
+        let token = getTokenCache()
+
+        // retry automático
+        if (!token) {
+            token = await gerarToken();
+        }
+
+        const resposta = await fetch(url, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+
+        const data = await resposta.json()
+
+        if (!data.tracks || !data.tracks.items) {
+            return res.json([])
+        }
+
+        const tracks = data.tracks.items.map(track => ({
+            nome: track.name,
+            artistas: track.artists.map(a => a.name).join(", "),
+            duracao: track.duration_ms,
+            preview: track.preview_url,
+            faixa: track.track_number
+        }))
+
+        res.json(tracks)
+
+    }
+    catch (erro) {
+        console.log(erro)
+        res.status(500).send(`Erro interno: ${erro}`)
+    }
+
+})
 
 app.get('/lyrics', async (req, res) => {
 

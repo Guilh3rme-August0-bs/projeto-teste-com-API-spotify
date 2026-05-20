@@ -60,13 +60,13 @@
             flex-direction: column;
             padding: 20px;
             border-radius: 10px;
-            width: 100%;
+            width: 78%;
         }
 
         .container {
             display: flex;
             flex-direction: column;
-            width: 93%;
+            width: 100vh;
             padding: 20px;
             background-color: #232323;
             border-radius: 10px;
@@ -108,13 +108,12 @@
             display: flex;
             flex-direction: row;
             align-items: center;
-            padding: 6px;
             background-color: #232323;
-            gap: 5px
+            gap: 5px;
         }
 
         .search-input {
-            width: 100%;
+            width: 70%;
             padding: 10px;
             margin-bottom: 10px;
             border: 1px solid #ccc;
@@ -122,7 +121,7 @@
         }
 
         .select-container {
-            width: 30%;
+            width: 20%;
             margin-bottom: 10px;
         }
 
@@ -158,7 +157,7 @@
             color: #ffffff;
             cursor: pointer;
             height: 38px;
-            width: 50px;
+            width: 10%;
             margin-top: -9px;
         }
 
@@ -257,6 +256,53 @@
             color: #ffffff;
         }
 
+        .trackList {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            width: 70vh;
+            height: 37vw;
+            padding: 20px;
+            background-color: #0f0f0f;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            justify-content: center;
+        }
+
+        .cover_album {
+            height: 20vh;
+            width: 20vh;
+        }
+
+        .list-content {
+            display: flex;
+            padding: 20px;
+            background: #080808;
+            gap: 15px;
+            flex-direction: column;
+            height: 60vh;
+            overflow-y: scroll;
+            border-radius: 10px;
+            width: 90%
+        }
+
+        .album-item {
+            max-width: 100vh;
+            padding: 10px;
+            background-color: #232323;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+
+        }
+
+        .track, .time {
+            background: #0000
+        }
+
+
         @media screen and (max-width: 600px) {
             .container {
                 display: flex;
@@ -304,6 +350,7 @@
 
         /* 2. O trilho (fundo onde a barra desliza) */
         .lyrics::-webkit-scrollbar-track,
+        .list-content::-webkit-scrollbar-track,
         .results::-webkit-scrollbar-track {
             background: #454545;
             border-radius: 8px;
@@ -311,12 +358,14 @@
 
         /* 3. O polegar (a barra que se move) */
         .lyrics::-webkit-scrollbar-thumb,
+        .list-content::-webkit-scrollbar-thumb,
         .results::-webkit-scrollbar-thumb {
             background: #1db954;
             border-radius: 8px;
         }
 
         .lyrics::-webkit-scrollbar,
+        .list-content::-webkit-scrollbar,
         .results::-webkit-scrollbar {
             width: 12px;
             /* Largura para scroll vertical */
