@@ -152,28 +152,53 @@ app.get('/albums', async (req, res) => {
 
 })
 
+// app.get('/lyrics', async (req, res) => {
+
+//     const artist = req.query.artist
+//     const title = req.query.title
+
+//     try {
+//         //await pausa a função até que a promise seja concluída     
+//         const resposta = await fetch(`https://api.lyrics.ovh/v1/${artist}/${title}`)
+//         /* na variável "dados", o await é usado para que o retorno 
+//         não seja "pending" (promise pendente), assim a linha não é 
+//         executada antes do retorno da promise */
+//         const dados = await resposta.json()
+
+//         if (dados.error) {
+//             throw new Error('Não foi possível encontrar a letra desta faixa')
+//         }
+//         res.json(dados)
+
+//     } catch (erro) {
+//         console.log(`erro ao buscar canção`)
+//         res.status(404).json({ erro: erro.message })
+//     }
+// })
+
 app.get('/lyrics', async (req, res) => {
 
-    const artist = req.query.artist
-    const title = req.query.title
+    const artist = req.query.artist_name
+    const title = req.query.track_name
+    const album = req.query.album_name
+    const duration = req.query.duration
 
-    try {
-        //await pausa a função até que a promise seja concluída     
-        const resposta = await fetch(`https://api.lyrics.ovh/v1/${artist}/${title}`)
-        /* na variável "dados", o await é usado para que o retorno 
-        não seja "pending" (promise pendente), assim a linha não é 
-        executada antes do retorno da promise */
+    try{
+
+        const resposta = await fetch(`https://lrclib.net/api/get?artist_name=${artist}&track_name=${title}&album_name=${album}&duration=${duration}`)
         const dados = await resposta.json()
 
-        if (dados.error) {
+        if (dados.statusCode === 404) {
             throw new Error('Não foi possível encontrar a letra desta faixa')
         }
         res.json(dados)
 
     } catch (erro) {
-        console.log(`erro ao buscar canção`)
-        res.status(404).json({ erro: erro.message })
+        console.log(erro.message)
+        res.json({"erro": erro})
     }
+
+
 })
 
 app.listen(PORT, () => {

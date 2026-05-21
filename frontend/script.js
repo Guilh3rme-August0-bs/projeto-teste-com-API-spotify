@@ -36,10 +36,10 @@ function formatarTempo(ms) {
     // Transforma em string e garante que tenha pelo menos 2 dígitos, preenchendo com '0'
     let segundosFormatados = segundos.toString().padStart(2, '0');
 
-    return `${minutos}:${segundosFormatados}`;
+    return [`${minutos}:${segundosFormatados}`, totalSegundos];
 }
 
-async function preencherLyrics(artist, title) {
+async function preencherLyrics(artist, title, album, duration) {
 
     const iconDiv = document.querySelector('.icon')
     const lyrics = document.querySelector('.lyrics')
@@ -51,7 +51,7 @@ async function preencherLyrics(artist, title) {
     lyrics.style.display = 'flex'
     divTrack.style.display = 'none'
 
-    let resposta = await fetch(`${url}/lyrics/?artist=${artist}&title=${title}`)
+    let resposta = await fetch(`${url}/lyrics/?artist_name=${artist}&track_name=${title}&album_name=${album}&duration=${duration}`)
     let resultado = await resposta.json()
 
     iconDiv.style.display = 'none'
@@ -64,7 +64,7 @@ async function preencherLyrics(artist, title) {
     if (resultado.erro) {
         textLyric.innerHTML = 'Não foi possível encontrar a letra desta faixa'
     } else {
-        textLyric.innerHTML = resultado.lyrics
+        textLyric.innerHTML = resultado.plainLyrics
     }
 }
 
@@ -89,10 +89,53 @@ async function preencherTrackList(img, id) {
         lista.innerHTML += `
         <div class="album-item">
         <p class="track">${resultado[i].nome}</p>
-        <p class="time">${formatarTempo(resultado[i].duracao)}</p>
+        <p class="time">${formatarTempo(resultado[i].duracao)[0]}</p>
         </div>`
     }
 
+}
+
+//colorir div de letras pela cor da capa do álbum
+
+function alterarCorPorImagem(urlDaImagem, seletorDiv) {
+    const img = new Image();
+    img.crossOrigin = 'Anonymous'; 
+    img.src = urlDaImagem;
+
+    img.onload = function() {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = 1;
+        canvas.height = 1;
+        
+        ctx.drawImage(img, 0, 0, 1, 1);
+        const pixel = ctx.getImageData(0, 0, 1, 1).data;
+        
+        const r = pixel[0];
+        const g = pixel[1];
+        const b = pixel[2];
+
+        // 1. Filtro de Cinza: Verifica proximidade entre os canais RGB
+        const maxDiff = Math.max(r, g, b) - Math.min(r, g, b);
+        const ehCinza = maxDiff < 25; 
+
+        // 2. Filtro de Brilho: Reduzido de 220 para 180 para barrar cores claras/pastéis
+        const luminosidade = (0.299 * r + 0.587 * g + 0.114 * b);
+        const ehMuitoClaro = luminosidade > 180; 
+
+        const elementoAlvo = document.querySelector(seletorDiv);
+        if (!elementoAlvo) return;
+
+        if (!ehCinza && !ehMuitoClaro) {
+            // Fixa a transparência em exatamente 0.80
+            elementoAlvo.style.backgroundColor = `rgba(${r}, ${g}, ${b}, 0.80)`;
+        } else {
+            console.log("Cor rejeitada para garantir o contraste com o texto branco.");
+            // Cor de segurança escura para garantir leitura do texto branco
+            elementoAlvo.style.backgroundColor = '#1db954b4'; 
+        }
+    };
 }
 
 //selecionar track para mostrar letra
@@ -100,12 +143,14 @@ const elementoPai = document.querySelector('.results')
 
 elementoPai.addEventListener('click', function (e) {
 
-    
+
     const itemClicado = e.target.closest('.item')
     const lista = itemClicado.querySelector('.lista_div')
     const itemContent = lista.querySelector('.item_content')
     const artista = itemContent.querySelector('.artista')
     const title = itemContent.querySelector('.nome')
+    const img = lista.querySelector('.cover_icon')
+    const imgValue = img.src
     
     if (itemClicado) {
         
@@ -113,19 +158,26 @@ elementoPai.addEventListener('click', function (e) {
         const typeValue = type.value
         const artistaValue = artista.innerText
         const titleValue = title.innerText
-
+        
         if (typeValue === 'track') {
-            preencherLyrics(artistaValue, titleValue)
+            
+            const segundos = itemContent.querySelector('.segundos')
+            const segundosValue = segundos.innerText
+            const album = itemContent.querySelector('.album')
+            const albumValue = album.innerText
+
+            preencherLyrics(artistaValue, titleValue, albumValue, segundosValue)
+            alterarCorPorImagem(imgValue, '.lyrics')
         }
         if (typeValue === 'album') {
             const id = itemContent.querySelector('.albumId')
-            const img = lista.querySelector('.cover_icon')
             const idValue = id.innerText
-            const imgValue = img.src
-
+            
             preencherTrackList(imgValue, idValue)
+            alterarCorPorImagem(imgValue, '.trackList')
         }
     }
+
 
 })
 
@@ -181,6 +233,7 @@ function listar() {
         switch (typeValue) {
             case 'track':
 
+
                 lista_div.innerHTML = `<div class="lista_div">
             <img class="cover_icon" src=${list[i].imagem}>
             <div class="item_content">
@@ -189,7 +242,8 @@ function listar() {
                     <li class="artista">${list[i].artista}</li>
                     <li class="album">${list[i].album}</li>
                     <li class="lancamento">${list[i].lancamento}</li>
-                    <li class="duracao">${formatarTempo(list[i].duracao)}</li>
+                    <li class="duracao">${formatarTempo(list[i].duracao)[0]}</li>
+                    <li class="segundos" style="display: none">${formatarTempo(list[i].duracao)[1]}</li>
                     <!--<li class="explicit">${explicitCheck(list[i].explicit)}</li>-->
                     <a href="${list[i].link}" class="link">Ouvir</a>
                     </ul>

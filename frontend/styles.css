@@ -219,6 +219,10 @@
         .lyricsText {
             font-size: 26px;
             background: #00000000;
+            white-space: pre-line;
+            font-family: Arial, sans-serif;
+            color: rgb(255, 255, 255);
+            line-height: 1.6;
         }
 
         .cover_icon {
@@ -298,7 +302,8 @@
 
         }
 
-        .track, .time {
+        .track,
+        .time {
             background: #0000
         }
 
