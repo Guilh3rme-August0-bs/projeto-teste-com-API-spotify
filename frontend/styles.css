@@ -278,10 +278,35 @@
             width: 20vh;
         }
 
+        .album-header {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            width: 100%;
+            justify-content: space-around;
+            background: #00000000;
+            margin-bottom: 20px;
+            gap: 25px;
+        }
+
+        .album-header-content,
+        #title-album,
+        #album-artist {
+            background: #00000000;
+        }
+
+        #title-album {
+            font-size: 3.3vh;
+        }
+
+        #album-artist {
+            font-size: 3vh;
+        }
+
         .list-content {
             display: flex;
             padding: 20px;
-            background: #080808;
+            background: #00000042;
             gap: 15px;
             flex-direction: column;
             height: 60vh;
@@ -293,7 +318,7 @@
         .album-item {
             max-width: 100vh;
             padding: 10px;
-            background-color: #232323;
+            background-color: #2323237d;
             border-radius: 5px;
             display: flex;
             flex-direction: row;

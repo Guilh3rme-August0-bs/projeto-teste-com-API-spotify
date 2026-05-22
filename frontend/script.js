@@ -68,7 +68,7 @@ async function preencherLyrics(artist, title, album, duration) {
     }
 }
 
-async function preencherTrackList(img, id) {
+async function preencherTrackList(img, name, artist, id) {
 
     let resposta = await fetch(`${url}/albums/?id=${id}`)
     let resultado = await resposta.json()
@@ -76,10 +76,19 @@ async function preencherTrackList(img, id) {
     const iconDiv = document.querySelector('.icon')
     const lyrics = document.querySelector('.lyrics')
     const divTrack = document.querySelector('.trackList')
-    const albumCover = divTrack.querySelector('.cover_album')
+    const divAlbum = divTrack.querySelector('.album-header')
+    const divAlbumContent = divAlbum.querySelector('.album-header-content')
+
+    const albumCover = divAlbum.querySelector('.cover_album')
+    const albumTitle = document.getElementById('title-album')
+    const albumArtist = document.getElementById('album-artist')
+
     const lista = divTrack.querySelector('.list-content')
 
     albumCover.src = img
+    albumTitle.innerText = name
+    albumArtist.innerText = artist
+
     iconDiv.style.display = 'none'
     lyrics.style.display = 'none'
     divTrack.style.display = 'flex'
@@ -99,30 +108,30 @@ async function preencherTrackList(img, id) {
 
 function alterarCorPorImagem(urlDaImagem, seletorDiv) {
     const img = new Image();
-    img.crossOrigin = 'Anonymous'; 
+    img.crossOrigin = 'Anonymous';
     img.src = urlDaImagem;
 
-    img.onload = function() {
+    img.onload = function () {
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
-        
+
         canvas.width = 1;
         canvas.height = 1;
-        
+
         ctx.drawImage(img, 0, 0, 1, 1);
         const pixel = ctx.getImageData(0, 0, 1, 1).data;
-        
+
         const r = pixel[0];
         const g = pixel[1];
         const b = pixel[2];
 
         // 1. Filtro de Cinza: Verifica proximidade entre os canais RGB
         const maxDiff = Math.max(r, g, b) - Math.min(r, g, b);
-        const ehCinza = maxDiff < 25; 
+        const ehCinza = maxDiff < 25;
 
         // 2. Filtro de Brilho: Reduzido de 220 para 180 para barrar cores claras/pastéis
         const luminosidade = (0.299 * r + 0.587 * g + 0.114 * b);
-        const ehMuitoClaro = luminosidade > 180; 
+        const ehMuitoClaro = luminosidade > 180;
 
         const elementoAlvo = document.querySelector(seletorDiv);
         if (!elementoAlvo) return;
@@ -133,7 +142,7 @@ function alterarCorPorImagem(urlDaImagem, seletorDiv) {
         } else {
             console.log("Cor rejeitada para garantir o contraste com o texto branco.");
             // Cor de segurança escura para garantir leitura do texto branco
-            elementoAlvo.style.backgroundColor = '#1db954b4'; 
+            elementoAlvo.style.backgroundColor = '#1db954b4';
         }
     };
 }
@@ -151,16 +160,16 @@ elementoPai.addEventListener('click', function (e) {
     const title = itemContent.querySelector('.nome')
     const img = lista.querySelector('.cover_icon')
     const imgValue = img.src
-    
+
     if (itemClicado) {
-        
+
         const type = document.getElementById('select-input')
         const typeValue = type.value
         const artistaValue = artista.innerText
         const titleValue = title.innerText
-        
+
         if (typeValue === 'track') {
-            
+
             const segundos = itemContent.querySelector('.segundos')
             const segundosValue = segundos.innerText
             const album = itemContent.querySelector('.album')
@@ -172,8 +181,8 @@ elementoPai.addEventListener('click', function (e) {
         if (typeValue === 'album') {
             const id = itemContent.querySelector('.albumId')
             const idValue = id.innerText
-            
-            preencherTrackList(imgValue, idValue)
+
+            preencherTrackList(imgValue, titleValue, artistaValue, idValue)
             alterarCorPorImagem(imgValue, '.trackList')
         }
     }
