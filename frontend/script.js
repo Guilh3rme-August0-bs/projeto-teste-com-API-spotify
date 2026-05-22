@@ -66,6 +66,11 @@ async function preencherLyrics(artist, title, album, duration) {
     } else {
         textLyric.innerHTML = resultado.plainLyrics
     }
+
+    lyrics.style.justifyContent = 'flex-start'
+    document.querySelector('.loading').style.display = 'none'
+    document.querySelector('.lyrics-content').style.display = 'flex'
+    document.querySelector('.loading').style.justifyContent = 'flex-start'
 }
 
 async function preencherTrackList(img, name, artist, id) {
@@ -102,6 +107,12 @@ async function preencherTrackList(img, name, artist, id) {
         </div>`
     }
 
+    document.querySelector('.icon').style.display = 'none'
+    document.querySelector('.lyrics').style.justifyContent = 'flex-start'
+    document.querySelector('.loading').style.display = 'none'
+    document.querySelector('.lyrics-content').style.display = 'flex'
+    document.querySelector('.lyrics-content').style.justifyContent = 'flex-start'
+    document.querySelector('.loading').style.justifyContent = 'center'
 }
 
 //colorir div de letras pela cor da capa do álbum
@@ -167,6 +178,13 @@ elementoPai.addEventListener('click', function (e) {
         const typeValue = type.value
         const artistaValue = artista.innerText
         const titleValue = title.innerText
+
+        document.querySelector('.icon').style.display = 'none'
+        document.querySelector('.lyrics').style.justifyContent = 'center'
+        document.querySelector('.loading').style.display = 'flex'
+        document.querySelector('.lyrics-content').style.display = 'none'
+        document.querySelector('.lyrics-content').style.justifyContent = 'center'
+        document.querySelector('.loading').style.justifyContent = 'center'
 
         if (typeValue === 'track') {
 

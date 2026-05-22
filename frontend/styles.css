@@ -25,7 +25,7 @@
         .menu {
             padding: 20px;
             border-radius: 10px;
-            width: 33%;
+            width: 16%;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
@@ -34,7 +34,7 @@
             flex-direction: column;
             align-items: center;
             width: 86%;
-            height: 37vw;
+            height: 83vh;
             padding: 20px;
             gap: 20px;
             background-color: #232323;
@@ -46,6 +46,7 @@
             background-color: #00000000;
             border: none;
             cursor: pointer;
+            text-decoration: none;
         }
 
         .left {
@@ -53,6 +54,17 @@
             border-radius: 10px;
             width: 100%;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            width: 49%;
+            height:87.8vh
+
+        }
+
+        /* .navigation, */
+        .lyrics,
+        .results {
+            height: 60vh;
         }
 
         .right {
@@ -60,13 +72,13 @@
             flex-direction: column;
             padding: 20px;
             border-radius: 10px;
-            width: 78%;
+            width: 33%;
         }
 
         .container {
             display: flex;
             flex-direction: column;
-            width: 100vh;
+            /* width: 100vh; */
             padding: 20px;
             background-color: #232323;
             border-radius: 10px;
@@ -102,6 +114,7 @@
             display: none;
             background: #0000ff00;
             height: 60vh;
+            padding: 20px;
         }
 
         .search-bar {
@@ -173,15 +186,25 @@
         .results {
             display: flex;
             flex-direction: column;
-            max-width: 100vh;
+
             gap: 10px;
-            margin: 40px auto;
+            margin-top: 40px;
             padding: 20px;
             background-color: #080808;
             border-radius: 10px;
 
+            flex: 1;
+            /* ocupa o espaço disponível */
+            /* overflow-y: auto; */
+
+
+            /* REMOVE isso */
+            max-width: none;
+
+            /* REMOVE altura fixa */
+
             overflow-y: scroll;
-            height: 60vh;
+
 
         }
 
@@ -216,8 +239,35 @@
 
         }
 
+                
+        .loading {
+            display: none;
+            width: 50px;
+            height: 50px;
+            border: 5px solid #ccc;
+            border-top: 5px solid #337ab7;
+            background: #0000;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        
+        @media (max-width: 600px) {
+            body {
+                flex-direction: column;
+            }
+        }
+
         .lyricsText {
-            font-size: 26px;
+            font-size: 3.2vh;
             background: #00000000;
             white-space: pre-line;
             font-family: Arial, sans-serif;
@@ -338,6 +388,8 @@
                 display: flex;
                 flex-direction: column;
                 width: 80vw;
+                flex-shrink: 0;
+                /* impede de encolher */
                 /* Alterado de vh para vw, geralmente usado para largura */
                 margin: 1px;
                 padding: 20px;
@@ -349,7 +401,7 @@
 
             .results {
                 overflow-y: none;
-                height: 35%;
+                /* height: 35%; */
             }
 
             .right {
