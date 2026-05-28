@@ -3,8 +3,11 @@ const url = 'http://127.0.0.1:3000'
 const textArea = document.getElementById('textArea')
 
 var list = []
+var varType = '' 
 
 async function search(content, type) {
+
+    varType = type
 
     const iconDiv = document.querySelector('.icon')
     const lyrics = document.querySelector('.lyrics')
@@ -102,7 +105,7 @@ async function preencherTrackList(img, name, artist, id) {
     for (let i = 0; i < resultado.length; i++) {
         lista.innerHTML += `
         <div class="album-item">
-        <p class="track">${resultado[i].nome}</p>
+        <p class="track">${resultado[i].faixa}. ${resultado[i].nome}</p>
         <p class="time">${formatarTempo(resultado[i].duracao)[0]}</p>
         </div>`
     }
@@ -163,7 +166,6 @@ const elementoPai = document.querySelector('.results')
 
 elementoPai.addEventListener('click', function (e) {
 
-
     const itemClicado = e.target.closest('.item')
     const lista = itemClicado.querySelector('.lista_div')
     const itemContent = lista.querySelector('.item_content')
@@ -174,8 +176,7 @@ elementoPai.addEventListener('click', function (e) {
 
     if (itemClicado) {
 
-        const type = document.getElementById('select-input')
-        const typeValue = type.value
+        const typeValue = varType 
         const artistaValue = artista.innerText
         const titleValue = title.innerText
 
