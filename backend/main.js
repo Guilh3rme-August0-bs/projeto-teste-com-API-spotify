@@ -1,12 +1,13 @@
-const express = require('express')
+import express from 'express';
+import cors from 'cors';
+import 'dotenv/config';
+
 const app = express()
-require('dotenv').config()
 
 // CORS: permite que o frontend (rodando em outra porta/origem) consiga fazer requisições para este backend
-const cors = require('cors')
 app.use(cors())
 
-const { gerarToken, getTokenCache } = require("./autenticacao.js")
+import { gerarToken, getTokenCache } from './autenticacao.js';
 
 const PORT = 3000
 

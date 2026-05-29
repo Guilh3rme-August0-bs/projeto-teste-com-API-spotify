@@ -1,4 +1,5 @@
-require('dotenv').config()
+//require('dotenv').config()
+import 'dotenv/config';
 
 const clientID = process.env.CLIENT_ID
 const clientSecret = process.env.CLIENT_SECRET
@@ -47,7 +48,7 @@ function getTokenCache() {
     return tokenCache
 }
 
-module.exports = { gerarToken, getTokenCache }
+export { gerarToken, getTokenCache }
 
 /*
 
