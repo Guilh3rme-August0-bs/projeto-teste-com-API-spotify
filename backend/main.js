@@ -10,14 +10,7 @@ const { gerarToken, getTokenCache } = require("./autenticacao.js")
 
 const PORT = 3000
 
-//rota para pesquisar artista, album, track
-
-// const contentPlus = content.replace(/ /g, '+')
-
-//url teste:
-
-//http://127.0.0.1:3000/search/?content=Rolling%20Stones&type=track
-
+//rota para pesquisar album, track
 
 app.get('/search', async (req, res) => {
 
@@ -56,18 +49,6 @@ app.get('/search', async (req, res) => {
         }
 
         const data = await resposta.json();
-
-
-        // const resultado = data.tracks.items.map(track => ({
-        //     nome: track.name,
-        //     artista: track.artists[0].name,
-        //     album: track.album.name,
-        //     imagem: track.album.images[0]?.url,
-        //     preview: track.preview_url
-
-        // }))
-
-        // res.json(resultado)
 
         function typeCheck(type) {
 
@@ -151,30 +132,6 @@ app.get('/albums', async (req, res) => {
     }
 
 })
-
-// app.get('/lyrics', async (req, res) => {
-
-//     const artist = req.query.artist
-//     const title = req.query.title
-
-//     try {
-//         //await pausa a função até que a promise seja concluída     
-//         const resposta = await fetch(`https://api.lyrics.ovh/v1/${artist}/${title}`)
-//         /* na variável "dados", o await é usado para que o retorno 
-//         não seja "pending" (promise pendente), assim a linha não é 
-//         executada antes do retorno da promise */
-//         const dados = await resposta.json()
-
-//         if (dados.error) {
-//             throw new Error('Não foi possível encontrar a letra desta faixa')
-//         }
-//         res.json(dados)
-
-//     } catch (erro) {
-//         console.log(`erro ao buscar canção`)
-//         res.status(404).json({ erro: erro.message })
-//     }
-// })
 
 app.get('/lyrics', async (req, res) => {
 

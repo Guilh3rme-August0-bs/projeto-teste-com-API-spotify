@@ -193,15 +193,7 @@
             border-radius: 10px;
 
             flex: 1;
-            /* ocupa o espaço disponível */
-            /* overflow-y: auto; */
-
-
-            /* REMOVE isso */
             max-width: none;
-
-            /* REMOVE altura fixa */
-
             overflow-y: scroll;
 
 
