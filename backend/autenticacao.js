@@ -3,15 +3,12 @@ import 'dotenv/config';
 
 const clientID = process.env.CLIENT_ID
 const clientSecret = process.env.CLIENT_SECRET
-
 const credentials = Buffer.from(`${clientID}:${clientSecret}`).toString("base64");
 
-//armazenar token gerado em cache
 let tokenCache = null
 let tokenExpiraEm = 0
 
 async function gerarToken() {
-
     try {
         let resposta = await
             fetch("https://accounts.spotify.com/api/token", {
@@ -34,7 +31,6 @@ async function gerarToken() {
 
         return tokenCache
 
-
     } catch (erro) {
         console.log(erro)
     }
@@ -49,11 +45,3 @@ function getTokenCache() {
 }
 
 export { gerarToken, getTokenCache }
-
-/*
-
-dados.access_token
-dados.token_type
-dados.expires_in
-
-*/

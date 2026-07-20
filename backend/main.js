@@ -3,15 +3,11 @@ import cors from 'cors';
 import 'dotenv/config';
 
 const app = express()
+const PORT = 3000
 
-// CORS: permite que o frontend (rodando em outra porta/origem) consiga fazer requisições para este backend
 app.use(cors())
 
 import { gerarToken, getTokenCache } from './autenticacao.js';
-
-const PORT = 3000
-
-//rota para pesquisar album, track
 
 app.get('/search', async (req, res) => {
 
@@ -23,14 +19,11 @@ app.get('/search', async (req, res) => {
     try {
 
         let token = getTokenCache()
-
         if (!token) {
             token = await gerarToken();
         }
 
         const urlSearch = `https://api.spotify.com/v1/search?q=${contentPlus}&type=${typeSearch}&limit=${limit}&include_external=audio`
-
-        //preencher (no ".env") com token gerado no "autenticacao.js"
 
         let resposta = await fetch(urlSearch, {
             headers: {
@@ -38,7 +31,6 @@ app.get('/search', async (req, res) => {
             }
         });
 
-        // retry automático
         if (resposta.status === 401) {
             token = await gerarToken()
 
@@ -95,11 +87,9 @@ app.get('/albums', async (req, res) => {
     const Id = req.query.id
 
     try {
-
         const url = `https://api.spotify.com/v1/albums/${Id}`
         let token = getTokenCache()
 
-        // retry automático
         if (!token) {
             token = await gerarToken();
         }
@@ -123,15 +113,12 @@ app.get('/albums', async (req, res) => {
             preview: track.preview_url,
             faixa: track.track_number
         }))
-
         res.json(tracks)
-
     }
     catch (erro) {
         console.log(erro)
         res.status(500).send(`Erro interno: ${erro}`)
     }
-
 })
 
 app.get('/lyrics', async (req, res) => {
@@ -142,7 +129,6 @@ app.get('/lyrics', async (req, res) => {
     const duration = req.query.duration
 
     try{
-
         const resposta = await fetch(`https://lrclib.net/api/get?artist_name=${artist}&track_name=${title}&album_name=${album}&duration=${duration}`)
         const dados = await resposta.json()
 
@@ -155,8 +141,6 @@ app.get('/lyrics', async (req, res) => {
         console.log(erro.message)
         res.json({"erro": erro})
     }
-
-
 })
 
 app.listen(PORT, () => {

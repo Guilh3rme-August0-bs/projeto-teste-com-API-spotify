@@ -21,7 +21,6 @@ async function search(content, type) {
 
     list = resultado
     textArea.innerText = JSON.stringify(resultado, null, 2)
-    //console.log(`tamanho do retorno: ${resultado.length}`)
     listar()
 
     iconDiv.style.display = 'block'
@@ -36,7 +35,6 @@ function formatarTempo(ms) {
     let minutos = Math.floor(totalSegundos / 60);
     let segundos = totalSegundos % 60;
 
-    // Transforma em string e garante que tenha pelo menos 2 dígitos, preenchendo com '0'
     let segundosFormatados = segundos.toString().padStart(2, '0');
 
     return [`${minutos}:${segundosFormatados}`, totalSegundos];
@@ -61,8 +59,6 @@ async function preencherLyrics(artist, title, album, duration) {
     lyricsDiv.style.display = 'block'
     lyrics.style.justifyContent = 'flex-start'
     lyrics.style.overflowY = 'scroll'
-
-    //console.log(resultado)
 
     if (resultado.erro) {
         textLyric.innerHTML = 'Não foi possível encontrar a letra desta faixa'
@@ -118,8 +114,6 @@ async function preencherTrackList(img, name, artist, id) {
     document.querySelector('.loading').style.justifyContent = 'center'
 }
 
-//colorir div de letras pela cor da capa do álbum
-
 function alterarCorPorImagem(urlDaImagem, seletorDiv) {
     const img = new Image();
     img.crossOrigin = 'Anonymous';
@@ -154,14 +148,12 @@ function alterarCorPorImagem(urlDaImagem, seletorDiv) {
             // Fixa a transparência em exatamente 0.80
             elementoAlvo.style.backgroundColor = `rgba(${r}, ${g}, ${b}, 0.80)`;
         } else {
-            console.log("Cor rejeitada para garantir o contraste com o texto branco.");
             // Cor de segurança escura para garantir leitura do texto branco
             elementoAlvo.style.backgroundColor = '#1db954b4';
         }
     };
 }
 
-//selecionar track para mostrar letra
 const elementoPai = document.querySelector('.results')
 
 elementoPai.addEventListener('click', function (e) {
@@ -205,17 +197,12 @@ elementoPai.addEventListener('click', function (e) {
             alterarCorPorImagem(imgValue, '.trackList')
         }
     }
-
-
 })
-
-
 
 document.querySelector('.search-button').addEventListener('click', function () {
 
     const content = document.getElementById('search-input')
     const type = document.getElementById('select-input')
-
     const contentValue = content.value
     const typeValue = type.value
 
@@ -223,16 +210,8 @@ document.querySelector('.search-button').addEventListener('click', function () {
 
 });
 
-//criar lista com resultados
 
 function listar() {
-    /* 
-        nome
-        artista
-        album
-        imagem
-        preview
-    */
 
     const content = document.getElementById('search-input')
     const type = document.getElementById('select-input')
@@ -241,7 +220,6 @@ function listar() {
     const typeValue = type.value
 
     for (let i = 0; i < list.length; i++) {
-
 
         const body = document.querySelector('.results')
         const lista_div = document.createElement('div')
@@ -253,14 +231,12 @@ function listar() {
             lista_anterior.forEach(el => el.remove())
         }
 
-
         function explicitCheck(explicit) {
             return explicit ? 'conteúdo explícito' : 'sem conteúdo explícito'
         }
 
         switch (typeValue) {
             case 'track':
-
 
                 lista_div.innerHTML = `<div class="lista_div">
             <img class="cover_icon" src=${list[i].imagem}>
@@ -302,11 +278,7 @@ function listar() {
                 lista_div.innerHTML = ''
 
                 break
-
         }
-
-
         body.appendChild(lista_div)
-        //console.log(`item: ${i}`)
     }
 }
