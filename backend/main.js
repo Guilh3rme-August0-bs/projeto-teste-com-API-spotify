@@ -138,7 +138,6 @@ app.get('/lyrics', async (req, res) => {
         res.json(dados)
 
     } catch (erro) {
-        console.log(erro.message)
         res.json({"erro": erro})
     }
 })

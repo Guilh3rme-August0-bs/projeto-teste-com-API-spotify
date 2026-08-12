@@ -1,4 +1,3 @@
-//require('dotenv').config()
 import 'dotenv/config';
 
 const clientID = process.env.CLIENT_ID
