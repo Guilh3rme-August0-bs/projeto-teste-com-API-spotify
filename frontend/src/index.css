@@ -1,0 +1,33 @@
+:root {
+  color: white;
+  --main-color: #2aac46;
+  --card-color: #100e0e;
+  --bg-card: #000000;
+}
+
+select {
+  background-color: var(--bg-card); /* Cor de fundo desejada */
+  color: var(--text-color);         /* Cor do texto */
+  padding: 8px;
+  border: 1px solid var(--border-color);
+}
+
+.bg-bg-card {
+  background-color: var(--bg-card);
+}
+
+.bg-card-color {
+  background-color: var(--card-color);
+}
+
+.bg-main-color {
+  background-color: var(--main-color);
+}
+
+.hover-bg-main-color:hover {
+  background-color: var(--main-color);
+}
+
+.focus-border-main-color:focus {
+  border-color: var(--main-color);
+}

@@ -1,66 +1,13 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página de Busca</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-    <link rel="stylesheet" href="styles.css">
-</head>
-
-<body>
-    <div class="content">
-    
-        <div class="left">
-            <div class="container">
-                <div class="search-bar">
-                    <input type="text" class="search-input" id="search-input" placeholder="Pesquisar...">
-                    <div class="select-container">
-                        <select id="select-input" class="select-input">
-                            <option value="track">Track</option>
-                            <option value="album">Album</option>
-                        </select>
-                    </div>
-                    <button class="search-button"><i class="fa-solid fa-magnifying-glass"></i></button>
-                </div>
-                <div class="text-area_div">
-                    <textarea class="text-area" placeholder="Descrição..." id="textArea"></textarea>
-                </div>
-            </div>
-            <div class="results">
-            </div>
-        </div>
-
-        <div class="right">
-            <div class="lyrics">
-                <div class="icon">
-                    <i class="fa-solid fa-music"></i>
-                </div>
-                 <div class="loading"></div>
-                <div class="lyrics-content">
-                    <p class='lyricsText'></p>
-                </div>
-            </div>
-
-            <div class="trackList">
-                <div class="album-header">
-                    <img class="cover_album" src=" " alt="" srcset="">
-                    <div class="album-header-content">
-                        <h1 id="title-album"></h1>
-                        <p id="album-artist"></p>
-                    </div>
-                </div>
-                <div class="list-content">
-                    <div class="track-time">
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script src="script.js"></script>
-</body>
-
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Spotify API page</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>
