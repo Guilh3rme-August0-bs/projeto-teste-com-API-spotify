@@ -2,15 +2,23 @@ const url = 'http://localhost:3000'
 
 export async function search(content, type) {
 
-    const iconDiv = document.querySelector('.icon')
-    const lyrics = document.querySelector('.lyrics')
-    const lyricsDiv = document.querySelector('.lyrics-content')
-    const textLyric = document.querySelector('.lyricsText')
-
     const contentPlus = content.replace(/ /g, '+')
 
     let resposta = await fetch(`${url}/search/?content=${contentPlus}&type=${type}`)
     let resultado = await resposta.json()
     return resultado
+
+}
+
+export async function preencherLyrics(artist, title, album, duration) {
+
+    let resposta = await fetch(`${url}/lyrics/?artist_name=${artist}&track_name=${title}&album_name=${album}&duration=${duration}`)
+    let resultado = await resposta.json()
+
+    if (resultado.erro) {
+        return 'Não foi possível encontrar a letra desta faixa'
+    } else {
+        return resultado
+    }
 
 }
