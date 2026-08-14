@@ -1,13 +1,8 @@
+import { useState } from 'react';
 import { preencherLyrics } from '../../services/client';
+import { formatarTempo } from '../../utils/timeFormatter';
 
-export const ResultsList = ({ list, type }) => {
-
-    function formatarTempo(ms) {
-        const totalSegundos = Math.floor(ms / 1000)
-        const minutos = Math.floor(totalSegundos / 60)
-        const segundos = totalSegundos % 60
-        return [`${minutos}:${String(segundos).padStart(2, '0')}`, totalSegundos]
-    }
+export const ResultsList = ({ list, onItemClick }) => {
 
     return (
         <div
@@ -16,7 +11,7 @@ export const ResultsList = ({ list, type }) => {
                 [&::-webkit-scrollbar-track]:rounded-full
                 [&::-webkit-scrollbar-track]:bg-slate-700
                 [&::-webkit-scrollbar-thumb]:rounded-full
-                [&::-webkit-scrollbar-thumb]:bg-[var(--main-color)]
+                [&::-webkit-scrollbar-thumb]:bg-(--main-color)
                 [&::-webkit-scrollbar-thumb:hover]:bg-[#1f8a38]"
         >
             {list.map((item, index) => {
@@ -24,9 +19,10 @@ export const ResultsList = ({ list, type }) => {
 
                 return (
                     <div
-                        key={item.link || item.id || index}
-                        className="flex items-center gap-3 rounded-2xl border border-slate-700 bg-bg-card p-3 shadow-md"
-                    >
+                        key={item.link || item.id}
+                        className="flex items-center gap-3 rounded-2xl border border-slate-700 bg-bg-card p-3 shadow-md cursor-pointer"
+                        onClick={() => onItemClick(item)}
+                        >
                         <img
                             className="h-24 w-24 object-cover"
                             src={item.imagem}

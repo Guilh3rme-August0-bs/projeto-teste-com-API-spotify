@@ -3,12 +3,15 @@ import { useState, useEffect } from 'react';
 import { MusicData } from './MusicData';
 import { search } from '../../services/client';
 import { ResultsList } from './ResultsList';
+import { preencherTrackList, preencherLyrics } from '../../services/client';
 
 export const SearchPage = () => {
+
     const [term, setTerm] = useState('')
     const [list, setList] = useState([])
     const [data, setData] = useState([])
     const [type, setType] = useState('track')
+    const [cover, setCover] = useState('')
 
     const changeType = (e) => {
         const nextType = e.target.value;
@@ -20,6 +23,27 @@ export const SearchPage = () => {
         setList(result);
     };
 
+    const handleItemClick = async (item) => {
+
+        let finalData = [];
+        const trackData = await preencherTrackList(item.imagem, item.nome, item.artista, item.id);
+        
+        // Converte a duração para segundos
+        const durationSeconds = typeof item.duracao === 'number' && item.duracao > 100000 
+            ? Math.round(item.duracao / 1000)  // Se estiver em ms, converte para segundos
+            : item.duracao;  // Se já estiver em segundos, usa direto
+        
+        const lyricsData = await preencherLyrics(item.artista, item.nome, item.album, durationSeconds);
+
+        if (type === 'album') {
+            finalData = trackData;
+            setCover(item.imagem);
+        } else {
+            finalData = lyricsData;
+        }
+
+        setData(finalData);
+    };
 
     return (
         <div className="flex h-full min-h-0 w-full flex-col gap-4 bg-bg-card text-white">
@@ -64,22 +88,17 @@ export const SearchPage = () => {
                                 </div>
                             </div>
 
-                            <textarea
-                                className="hidden w-full min-h-22.5 resize-none rounded-2xl border border-slate-700 bg-bg-card px-4 py-3 text-sm outline-none focus:border-main-color"
-                                placeholder="Descrição..."
-                                id="textArea"
-                            />
                         </div>
                     </div>
 
                     <div className="min-h-0 flex-1 overflow-hidden rounded-3xl bg-card-color p-3 shadow-xl sm:p-4">
-                        <ResultsList list={list} type={type} />
+                        <ResultsList list={list} onItemClick={handleItemClick} />
                     </div>
                 </div>
 
                 <div className="w-full md:w-96">
                     <div className="flex min-h-55 flex-1 rounded-3xl bg-card-color p-3 shadow-xl sm:p-4 md:min-h-0 md:h-full">
-                        <MusicData data={data} type={type} />
+                        <MusicData data={data} cover={cover} />
                     </div>
                 </div>
             </div>

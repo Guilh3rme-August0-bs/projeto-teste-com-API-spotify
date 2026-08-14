@@ -22,3 +22,11 @@ export async function preencherLyrics(artist, title, album, duration) {
     }
 
 }
+
+export async function preencherTrackList(img, name, artist, id) {
+
+    let resposta = await fetch(`${url}/albums/?id=${id}`)
+    let resultado = await resposta.json()
+    return resultado
+
+}
