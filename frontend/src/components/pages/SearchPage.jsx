@@ -96,7 +96,7 @@ export const SearchPage = () => {
                     </div>
                 </div>
 
-                <div className="w-full md:w-96">
+                <div className="md:flex-1">
                     <div className="flex min-h-55 flex-1 rounded-3xl bg-card-color p-3 shadow-xl sm:p-4 md:min-h-0 md:h-full">
                         <MusicData data={data} cover={cover} />
                     </div>

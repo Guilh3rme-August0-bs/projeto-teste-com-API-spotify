@@ -132,7 +132,7 @@ app.get('/lyrics', async (req, res) => {
         const resposta = await fetch(`https://lrclib.net/api/get?artist_name=${artist}&track_name=${title}&album_name=${album}&duration=${duration}`)
         const dados = await resposta.json()
 
-        if (dados.statusCode === 404) {
+        if (dados.statusCode === 404 || dados.statusCode === 400) {
             throw new Error('Não foi possível encontrar a letra desta faixa')
         }
         res.json(dados)

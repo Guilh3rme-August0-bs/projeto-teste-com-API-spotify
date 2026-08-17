@@ -14,14 +14,14 @@ export const MusicData = ({ data = [], cover = ''}) => {
 
     if (data.plainLyrics || typeof data === "string") {
         return (
-            <div className="flex h-[90vh] max-h-full flex-col gap-3 overflow-y-auto
+            <div className="flex h-[90vh] w-full max-h-full flex-col gap-3 p-4 overflow-y-auto
                 [&::-webkit-scrollbar]:w-2
                 [&::-webkit-scrollbar-track]:rounded-full
                 [&::-webkit-scrollbar-track]:bg-slate-700
                 [&::-webkit-scrollbar-thumb]:rounded-full
                 [&::-webkit-scrollbar-thumb]:bg-(--main-color)
                 [&::-webkit-scrollbar-thumb:hover]:bg-[#1f8a38]">
-                <p className="w-full text-sm leading-6 text-slate-200 lyricsText">
+                <p className="w-full text-lg leading-6 text-slate-200 whitespace-pre">
                     {data.plainLyrics || data}
                 </p>
             </div>
