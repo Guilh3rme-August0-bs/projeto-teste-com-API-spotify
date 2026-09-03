@@ -7,7 +7,13 @@ const PORT = 3000
 
 app.use(cors())
 
-import { gerarToken, getTokenCache } from './autenticacao.js';
+import {
+    gerarToken,
+    getTokenCache,
+    getLoginUrl,
+    trocarCodigoPorToken,
+    getUserToken
+} from './autenticacao.js';
 
 app.get('/search', async (req, res) => {
 
@@ -128,7 +134,7 @@ app.get('/lyrics', async (req, res) => {
     const album = req.query.album_name
     const duration = req.query.duration
 
-    try{
+    try {
         const resposta = await fetch(`https://lrclib.net/api/get?artist_name=${artist}&track_name=${title}&album_name=${album}&duration=${duration}`)
         const dados = await resposta.json()
 
@@ -138,7 +144,72 @@ app.get('/lyrics', async (req, res) => {
         res.json(dados)
 
     } catch (erro) {
-        res.json({"erro": erro})
+        res.json({ "erro": erro })
+    }
+})
+
+app.get('/login', (req, res) => {
+    res.redirect(getLoginUrl())
+})
+
+app.get('/callback', async (req, res) => {
+    try {
+        const { code, error } = req.query
+
+        if (error) {
+            return res.status(400).send(`Autorização negada: ${error}`)
+        }
+
+        await trocarCodigoPorToken(code)
+
+        res.redirect('http://localhost:5173/top-songs')
+    } catch (erro) {
+        console.error(erro)
+        res.status(500).send('Erro ao autenticar com o Spotify')
+    }
+})
+
+app.get('/recently-played', async (req, res) => {
+    try {
+        const token = await getUserToken()
+
+        if (!token) {
+            return res.status(401).json({
+                error: 'Usuário não autenticado',
+                login: 'http://localhost:3000/login'
+            })
+        }
+
+        const limit = Math.min(Number(req.query.limit) || 10, 50)
+        const after = req.query.after
+
+        const params = new URLSearchParams({
+            limit: String(limit)
+        })
+
+        if (after) {
+            params.set('after', String(after))
+        }
+
+        const resposta = await fetch(
+            `https://api.spotify.com/v1/me/player/recently-played?${params}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+        )
+
+        const dados = await resposta.json()
+
+        if (!resposta.ok) {
+            return res.status(resposta.status).json(dados)
+        }
+
+        res.json(dados)
+    } catch (erro) {
+        console.error(erro)
+        res.status(500).send('Erro interno')
     }
 })
 

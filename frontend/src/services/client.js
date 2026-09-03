@@ -30,3 +30,13 @@ export async function preencherTrackList(img, name, artist, id) {
     return resultado
 
 }
+
+export async function getTopSongs(limit, after) {
+
+    let resposta = await fetch(`${url}/recently-played/?limit=${limit}${after ? `&after=${after}` : ''}`)
+    let resultado = await resposta.json()
+
+    let newArray = resultado.items.map(item => ([item.track.name, item.track.album.name, item.track.album.images[1].url, item.track.album.artists[0].name]))
+
+    return newArray
+}
