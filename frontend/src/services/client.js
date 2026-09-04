@@ -36,7 +36,18 @@ export async function getTopSongs(limit, after) {
     let resposta = await fetch(`${url}/recently-played/?limit=${limit}${after ? `&after=${after}` : ''}`)
     let resultado = await resposta.json()
 
-    let newArray = resultado.items.map(item => ([item.track.name, item.track.album.name, item.track.album.images[1].url, item.track.album.artists[0].name]))
+    if (resultado.erro) {
+        return 'Não foi possível carregar as faixas, tente fazer login novamente'
+    } else {
 
-    return newArray
+        let newArray = resultado.items.map(item => ({
+            track: item.track.name,
+            album: item.track.album.name,
+            image: item.track.album.images[1].url,
+            artist: item.track.album.artists[0].name,
+            played_at: item.played_at
+        }))
+
+        return newArray
+    }
 }
