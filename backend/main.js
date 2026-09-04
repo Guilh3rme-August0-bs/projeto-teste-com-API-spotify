@@ -162,7 +162,7 @@ app.get('/callback', async (req, res) => {
 
         await trocarCodigoPorToken(code)
 
-        res.redirect('http://localhost:5173/topsongs')
+        res.redirect('http://localhost:5173/history')
     } catch (erro) {
         console.error(erro)
         res.status(500).send('Erro ao autenticar com o Spotify')

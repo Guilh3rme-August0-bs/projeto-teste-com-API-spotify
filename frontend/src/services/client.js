@@ -31,7 +31,7 @@ export async function preencherTrackList(img, name, artist, id) {
 
 }
 
-export async function getTopSongs(limit, after) {
+export async function getHistory(limit, after) {
 
     let resposta = await fetch(`${url}/recently-played/?limit=${limit}${after ? `&after=${after}` : ''}`)
     let resultado = await resposta.json()
@@ -45,7 +45,8 @@ export async function getTopSongs(limit, after) {
             album: item.track.album.name,
             image: item.track.album.images[1].url,
             artist: item.track.album.artists[0].name,
-            played_at: item.played_at
+            played_at: item.played_at,
+            link: item.track.external_urls.spotify
         }))
 
         return newArray

@@ -46,8 +46,8 @@ export const SearchPage = () => {
     };
 
     return (
-        <div className="flex h-full min-h-0 w-full flex-col gap-4 bg-bg-card text-white">
-            <div className="flex min-h-0 flex-1 flex-col gap-4 md:flex-row">
+        <div className="flex h-full w-full flex-col gap-4 bg-bg-card text-white">
+            <div className="flex h-full flex-1 flex-col gap-4 md:flex-row">
                 <div className="flex min-h-0 flex-1 flex-col gap-4">
                     <div className="rounded-3xl bg-card-color p-4 shadow-xl sm:p-5">
                         <div className="flex flex-col gap-3">

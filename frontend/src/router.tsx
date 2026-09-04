@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import { SearchPage } from "./components/pages/SearchPage";
-import { TopSongsPage } from "./components/pages/TopSongsPage";
+import { HistoryPage } from "./components/pages/HistoryPage";
 import { RootLayout } from "./layout/RootLayout";
 
 export const router = createBrowserRouter([
@@ -14,8 +14,8 @@ export const router = createBrowserRouter([
                 element: <SearchPage />
             },
             {
-                path: '/topsongs',
-                element: <TopSongsPage/>
+                path: '/history',
+                element: <HistoryPage/>
             }
         ]
     }
